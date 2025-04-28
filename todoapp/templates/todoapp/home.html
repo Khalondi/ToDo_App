@@ -1,0 +1,18 @@
+<DOCTYPE!>
+  <html>
+    <head>
+      <title>Home Page</title>
+      {% load static %}
+      <link rel="stylesheet" href="{% static "styles.css" %}"/>
+    </head>
+    <body>
+        <div class='container'>
+      <h1>Welcome to the ToDo App!</h1>
+        <p id='view'>
+      <a href={% url "view_todo" %}> View all Tasks here</a></p>
+      <p id='create'>
+      <a href={% url "create_todo" %}> Create new Tasks here</a></p>
+      </div>
+    </body>
+  </html>
+
