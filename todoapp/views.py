@@ -28,17 +28,9 @@ def create_todo(request):
 
 
 def view_todo(request):
-    todo = Task.objects.all()
+    todo = Task.objects.all().order_by("title")
     context={'todo':todo}
-    if request.method == 'POST':
-        if 'delete' in request.POST:
-            todo_id = request.POST.get('delete')
-            todo=Task.objects.get(id=todo_id)
-            todo.delete()
-            return redirect(view_todo)
-        elif 'edit' in request.POST:
-            todo_id = request.POST.get('edit')
-            return redirect('edit_todo',todo_id=todo_id)
+ 
         
     return render (request,'todoapp/viewtodo.html',context)
 
@@ -58,13 +50,30 @@ def view_todo(request):
 
 
 def edit_todo (request,todo_id):
-    form=Task.objects.get(id=todo_id)
+    task=Task.objects.get(id=todo_id)
     if request.method == "POST":
         form=ToDoForm(request.POST)
         if form.is_valid:
                 form.save()
                 return redirect('view_todo')
     else:
-        form=ToDoForm(instance=form)
+        form=ToDoForm(instance=task)
         context={"form":form}
-    return render(request,"todoapp/edittodo.html",context)   
+    return render(request,"todoapp/createtodo.html",context)   
+
+
+def todo_details(request,id):
+    detail=Task.objects.get(id=id)
+    if request.method == 'POST':
+        if 'delete' in request.POST:
+            todo_id = request.POST.get('delete')
+            todo=Task.objects.get(id=todo_id)
+            todo.delete()
+            return redirect(view_todo)
+        elif 'edit' in request.POST:
+            todo_id = request.POST.get('edit')
+            return redirect('edit_todo',todo_id=todo_id)
+    context={"todo_details":detail}
+    return render (request,'todoapp/tododetails.html',context)
+
+

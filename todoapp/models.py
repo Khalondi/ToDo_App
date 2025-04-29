@@ -13,8 +13,8 @@ class Task(models.Model):
     
     def __str__(self):
         return self.title
-    class meta:
-        ordering=['complete']
+    class Meta:
+        ordering=['-create']
         
     
 
